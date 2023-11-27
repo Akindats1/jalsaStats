@@ -17,7 +17,7 @@
         </h1>
     </header>
 
-    <div class="container searchNStat">
+    <!-- <div class="container searchNStat">
         <div class="row">
             <div class="col-md-6" id="total"></div>
 
@@ -26,9 +26,9 @@
                     onkeyup="fetchDataAndPopulateTable()">
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="table-container">
+    <!-- <div class="table-container">
 
         <div class="table-responsive">
             <table id="data-table" class="table table-striped">
@@ -42,15 +42,30 @@
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    <!-- Table body will be populated dynamically -->
+                    
                 </tbody>
             </table>
         </div>
+    </div> -->
+
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col">
+                <div id="total"></div>
+            </div>
+        </div>
+
+        <div class="row row-cols-2 row-cols-md-3 justify-content-center" id="gridRow">
+            <!-- Grid items will be populated dynamically here -->
+        </div>
     </div>
+
     <script type="module" src="fire.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-    <script>
+    <script src="endpoint.js"></script>
+
+    <!-- <script>
         const endpointUrl = 'https://jarms.ahmadiyyanigeria.net/GetCircuitStats?eventYear=2023';
 
         function fetchDataAndPopulateTable() {
@@ -115,7 +130,7 @@
         }
 
         fetchDataAndPopulateTable();
-    </script>
+    </script> -->
 </body>
 
 </html>
