@@ -1,0 +1,35 @@
+body {
+  background-image: url('bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.table-responsive {
+  max-width: 900px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.searchNStat {
+  max-width: 800px;
+}
+
+#searchInput {
+  display: block;
+  margin-bottom: 0.025rem;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+}
