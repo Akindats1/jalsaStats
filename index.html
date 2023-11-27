@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jalsa 2023 Registration Stats</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="jalsalogo.ico" type="image/x-icon">
+    <style>
+        body {
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .table-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .table-responsive {
+            max-width: 900px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .searchNStat {
+            max-width: 800px;
+        }
+
+        #searchInput {
+            display: block;
+            margin-bottom: 0.025rem;
+        }
+
+        .table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="p-4">
+        <h1 class="text-center">
+            <img src="jalsalogo.png" alt="Jalsa Salana" height="50"> Jalsa Salana 2023 Registration Statistics
+        </h1>
+    </header>
+
+    <div class="container searchNStat">
+        <div class="row">
+            <div class="col-md-6" id="total"></div>
+
+            <div class="col-md-6">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search..."
+                    onkeyup="fetchDataAndPopulateTable()">
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+
+        <div class="table-responsive">
+            <table id="data-table" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Circuit</th>
+                        <th>Total Tajneed</th>
+                        <th>Total Registered Members</th>
+                        <th>Total Registered Guest</th>
+                        <th>Registration Percent (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Table body will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="module" src="fire.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const endpointUrl = 'https://jarms.ahmadiyyanigeria.net/GetCircuitStats?eventYear=2023';
+
+        function fetchDataAndPopulateTable() {
+            fetch(endpointUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Access the table body element
+                    const tableBody = document.getElementById('table-body');
+
+                    tableBody.innerHTML = '';
+
+                    // Access the search input field
+                    const searchInput = document.getElementById('searchInput');
+                    const total = document.getElementById('total');
+                    let totalRegistered = 0;
+
+                    data.filter(item => {
+                        // Filter the data based on the search input field
+                        return Object.values(item).some(value => {
+                            return value.toString().toLowerCase().includes(searchInput.value.toLowerCase());
+                        });
+
+                    }).forEach(item => {
+                        const row = document.createElement('tr');
+
+                        // Assuming each item has 'id' and 'name' properties
+                        const circuitCell = document.createElement('td');
+                        circuitCell.textContent = item.circuitName;
+                        row.appendChild(circuitCell);
+
+                        const totalMemberCell = document.createElement('td');
+                        totalMemberCell.textContent = item.totalMember;
+                        row.appendChild(totalMemberCell);
+
+                        const registrationCountCell = document.createElement('td');
+                        registrationCountCell.textContent = item.registrationCount;
+                        totalRegistered += parseInt(item.registrationCount)
+                        row.appendChild(registrationCountCell);
+
+                        const totalGuestsCell = document.createElement('td');
+                        totalGuestsCell.textContent = item.totalGuests;
+                        row.appendChild(totalGuestsCell);
+
+                        const registeredPercentageCell = document.createElement('td');
+                        registeredPercentageCell.textContent = item.registeredPercentage;
+                        row.appendChild(registeredPercentageCell);
+
+                        // Append the row to the table body
+                        tableBody.appendChild(row);
+                    });
+
+                    total.innerHTML = `<span class="badge rounded-pill text-bg-success">Total Registered Members: ${totalRegistered}</span>`
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        fetchDataAndPopulateTable();
+    </script>
+</body>
+
+</html>
