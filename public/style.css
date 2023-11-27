@@ -16,10 +16,11 @@ body {
   max-width: 900px;
   max-height: 400px;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 .searchNStat {
-  max-width: 800px;
+  max-width: 900px;
 }
 
 #searchInput {
